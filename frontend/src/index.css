@@ -1,0 +1,176 @@
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+
+  /* Light mode colors */
+  --primary-color: #646cff;
+  --background-color: #f0f0f0;
+  --text-color: #000;
+  --secondary-text-color: #555;
+  --border-color: #ccc;
+  --card-background: #fff;
+  --card-shadow: rgba(0, 0, 0, 0.1);
+
+  /* Dark mode colors */
+  --primary-color-dark: #646cff;
+  --background-color-dark: #333;
+  --text-color-dark: #fff;
+  --secondary-text-color-dark: #bbb;
+  --border-color-dark: #555;
+  --card-background-dark: #444;
+  --card-shadow-dark: rgba(0, 0, 0, 0.3);
+
+  /* General */
+  --border-radius: 8px;
+  --transition-speed: 0.2s ease;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  color: var(--text-color);
+  background-color: var(--background-color);
+  transition: background-color var(--transition-speed), color var(--transition-speed);
+}
+
+/* Basic Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  margin-bottom: 0.5em;
+}
+
+h1 {
+  font-size: 2.5em;
+}
+
+p {
+  margin-bottom: 1em;
+}
+
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: color var(--transition-speed);
+}
+
+a:hover {
+  color: color-mix(in srgb, var(--primary-color), black 20%);
+}
+
+/* Layout */
+#root {
+  max-width: 1200px;
+  width: 90%;
+  margin: 2rem auto;
+  padding: 2rem;
+}
+
+/* Buttons */
+.btn-primary {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: var(--border-radius);
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color var(--transition-speed), transform 0.1s ease;
+}
+
+.btn-primary:hover {
+  background-color: color-mix(in srgb, var(--primary-color), black 20%);
+  transform: scale(1.03);
+}
+
+.btn-primary:disabled {
+  background-color: #ccc;
+  cursor: default;
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color var(--transition-speed), border-color var(--transition-speed), color var(--transition-speed);
+}
+
+.btn-secondary:hover {
+  background-color: var(--border-color);
+}
+
+.btn-icon {
+  background: none;
+  border: none;
+  color: var(--secondary-text-color);
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 50%;
+  transition: background-color var(--transition-speed), color var(--transition-speed);
+}
+
+.btn-icon:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Form Elements */
+input[type="text"],
+input[type="url"],
+select,
+textarea {
+  width: 100%;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+  transition: border-color var(--transition-speed), background-color var(--transition-speed), color var(--transition-speed);
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+
+}
+
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+  :root {
+    color: var(--text-color-dark);
+    background-color: var(--background-color-dark);
+  }
+}
+
+/* Utility Classes */
+.text-secondary {
+  color: var(--secondary-text-color);
+}
+
+.container {
+  max-width: 1200px;
+  width: 90%;
+  margin: 0 auto;
+  padding: 2rem 0;
+}
