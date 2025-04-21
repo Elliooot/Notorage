@@ -19,6 +19,17 @@ const ContentForm = () => {
   
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  const [showAddCategoryModal, setShowAddCategoryModal] = useState(false);
+  const [newCategoryName, setNewCategoryName] = useState('');
+
+  const handleCategoryChange = (e) => {
+    if (e.target.value === 'add_new') {
+      setShowAddCategoryModal(true);
+    } else {
+      setFormData(prev => ({ ...prev, category: e.target.value ? Number(e.target.value) : null }));
+    }
+  }
   
   // Get category list
   useEffect(() => {
@@ -91,6 +102,8 @@ const ContentForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+
+    console.log('submit', formData);
     
     try {
       if (id) {
@@ -108,6 +121,7 @@ const ContentForm = () => {
   };
   
   // One-click access to web page title function
+  // TODO: Need to change
   const fetchPageTitle = async () => {
     if (!formData.link) return;
     
@@ -210,7 +224,7 @@ const ContentForm = () => {
             id="category"
             name="category"
             value={formData.category || ''}
-            onChange={handleChange}
+            onChange={handleCategoryChange}
           >
             <option value="">-- Choose Category --</option>
             {categories.map(category => (
@@ -218,6 +232,7 @@ const ContentForm = () => {
                 {category.name}
               </option>
             ))}
+            <option value="add_new">Add new category</option>
           </select>
         </div>
         
@@ -237,6 +252,34 @@ const ContentForm = () => {
           </button>
         </div>
       </form>
+      
+      {showAddCategoryModal && (
+        <div className="modal-overlay">
+          <div className="modal">
+            <h3>Add New Category</h3>
+            <input
+              type="text"
+              value={newCategoryName}
+              onChange={(e) => setNewCategoryName(e.target.value)}
+              placeholder="Enter category name"
+            />
+            <div className="modal-buttons">
+              <button
+                type="button"
+                onClick={async () => {
+                  // 發送 API 請求新增分類
+                  const response = await axios.post('/api/categories/', { name: newCategoryName });
+                  setCategories([...categories, response.data]);
+                  setFormData(prev => ({ ...prev, category: response.data.id }));
+                  setShowAddCategoryModal(false);
+                  setNewCategoryName('');
+                }}
+              >Add</button>
+              <button type="button" onClick={() => setShowAddCategoryModal(false)}>Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

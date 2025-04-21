@@ -1,8 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import Dock from './blocks/Components/Dock/Dock';
+import { VscHome, VscArchive, VscAccount, VscSettingsGear } from 'react-icons/vsc';
 
 const ContentList = () => {
+    const [day, setDay] = useState(true);
     const [contents, setContents] = useState([]);
     const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -19,6 +22,13 @@ const ContentList = () => {
     // Sort Status
     const [sortBy, setSortBy] = useState('created_at');
     const [sortDirection, setSortDirection] = useState('desc');
+
+    const items = [
+        { icon: <VscHome size={18} />, label: 'Home', onClick: () => alert('Home!') },
+        { icon: <VscArchive size={18} />, label: 'Archive', onClick: () => alert('Archive!') },
+        { icon: <VscAccount size={18} />, label: 'Profile', onClick: () => alert('Profile!') },
+        { icon: <VscSettingsGear size={18} />, label: 'Settings', onClick: () => alert('Settings!') },
+      ];
 
     useEffect(() => {
         const fetchData = async () => {
@@ -46,6 +56,15 @@ const ContentList = () => {
         };
         fetchData();
     }, []);
+
+    const switchMode = (currentDay) => {
+        setDay(!currentDay);
+        if (currentDay) {
+            document.body.classList.add('dark-mode');
+        } else {
+            document.body.classList.remove('dark-mode');
+        }
+    };
 
     // Handling filter changes
     const handleFilterChange = (e) => {
@@ -182,9 +201,15 @@ const ContentList = () => {
     }
     
     return (
+        <>
         <div className="content-list-page">
         <div className="page-header">
-            <h1>My Content List</h1>
+            <h1>Notorage</h1>
+            <button className={`mode-switch-btn ${day ? 'day' : 'night'}`}
+                        onClick={() => switchMode(day)}
+                        title={day ? 'Switch to Night Mode' : 'Switch to Day Mode'}>
+                <img src={day ? '/img/day.png' : '/img/night.png'} alt="Sun" width={20} height={20}/>
+            </button>
             <Link to="/add" className="btn-primary">
             <i className="icon-plus"></i> Add Content
             </Link>
@@ -328,7 +353,7 @@ const ContentList = () => {
                         onClick={() => toggleFavorite(content.id, content.is_favorite)}
                         title={content.is_favorite ? 'Remove from favorite' : 'Add to favorite'}
                     >
-                        <i className={`icon-${content.is_favorite ? 'star-filled' : 'star'}`}></i>
+                        <img src={content.is_favorite ? '/img/heart1.png' : '/img/heart.png'} alt="Heart" width={20} height={20}/>
                     </button>
                     
                     <a 
@@ -338,7 +363,7 @@ const ContentList = () => {
                         className="btn-icon"
                         title="Open Link"
                     >
-                        <i className="icon-external-link"></i>
+                        <img src="/img/link.png" alt="Open Link" width={20} height={20}/>
                     </a>
                     
                     <Link 
@@ -346,7 +371,7 @@ const ContentList = () => {
                         className="btn-icon"
                         title="Edit"
                     >
-                        <i className="icon-edit"></i>
+                        <img src='/img/edit.png' alt="Edit" width={20} height={20}/>
                     </Link>
                     
                     <button 
@@ -354,7 +379,7 @@ const ContentList = () => {
                         onClick={() => handleDelete(content.id)}
                         title="Delete"
                     >
-                        <i className="icon-trash"></i>
+                        <img src="/img/delete.png" alt="Delete" width={20} height={20}/>
                     </button>
                 </div>
                 
@@ -368,6 +393,13 @@ const ContentList = () => {
             </div>
         )}
         </div>
+        <Dock 
+            items={items}
+            panelHeight={68}
+            baseItemSize={50}
+            magnification={70}
+        />
+        </>
     );
     };
 
